@@ -1,10 +1,21 @@
-import { useState } from "./lib/dom";
+import { useEffect, useState } from "./lib/dom";
 
 const App = () => {
   const [list, setList] = useState<string[]>(["안녕"]);
   const [value, setValue] = useState("");
 
-  console.log(value);
+  useEffect(() => {
+    console.log("changed list");
+  }, [list]);
+
+  useEffect(() => {
+    console.log("changed value");
+  }, [value]);
+
+  useEffect(() => {
+    console.log("start!!!");
+  }, []);
+
   function addItem() {
     setList([...list, value]);
     setValue("");
@@ -21,7 +32,7 @@ const App = () => {
 
   return (
     <ul>
-      <input type="text" oninput={handleInput} />
+      <input type="text" oninput={handleInput} value={value} />
       <button onclick={() => addItem()}>추가</button>
       {list.map((item, index) => (
         <li>

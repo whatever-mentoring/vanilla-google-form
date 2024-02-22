@@ -12,9 +12,9 @@ interface IRenderInfo {
 
 const domRenderer = () => {
   const options = {
-    states: [] as any,
     renderCount: 0,
-    stateIndex: 0,
+    hooks: [] as any,
+    currentHook: 0,
   };
   const renderInfo: IRenderInfo = {
     $root: null,
@@ -23,8 +23,9 @@ const domRenderer = () => {
     newVDOM: null,
   };
   const reset = () => {
-    options.states = [];
-    options.stateIndex = 0;
+    options.hooks = [];
+    options.currentHook = 0;
+    options.renderCount = 0;
   };
   const _render = () => {
     const { $root, currentVDOM, component } = renderInfo;
@@ -32,7 +33,7 @@ const domRenderer = () => {
     const VDOM = component!();
     updateElement($root, VDOM, currentVDOM);
     renderInfo.currentVDOM = VDOM;
-    options.stateIndex = 0;
+    options.currentHook = 0;
     options.renderCount += 1;
   };
 
@@ -46,18 +47,32 @@ const domRenderer = () => {
   };
 
   const useState = <T>(initialState?: T) => {
-    const { stateIndex: index } = options;
-    const state = (options.states[index] || initialState) as T;
+    const { currentHook: index } = options;
+    const state = (options.hooks[index] || initialState) as T;
     const setState = (newState: T) => {
       if (shallowEqual(state, newState)) return;
-      options.states[index] = newState;
+      options.hooks[index] = newState;
       _render();
     };
-    options.stateIndex += 1;
+    options.currentHook += 1;
     return [state, setState] as const;
   };
 
-  return { render, useState };
+  const useEffect = (callback: () => void, dependencies?: any[]) => {
+    const { hooks, currentHook } = options;
+    const hasNoDeps = !dependencies;
+    const prevDeps = hooks[currentHook];
+    const hasChangedDeps = prevDeps
+      ? !dependencies?.every((el, i) => shallowEqual(el, prevDeps[i]))
+      : true;
+    if (hasNoDeps || hasChangedDeps) {
+      callback();
+      hooks[currentHook] = dependencies;
+    }
+    options.currentHook += 1;
+  };
+
+  return { render, useState, useEffect };
 };
 
-export const { render, useState } = domRenderer();
+export const { render, useState, useEffect } = domRenderer();
