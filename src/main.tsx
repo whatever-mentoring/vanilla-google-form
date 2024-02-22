@@ -3,4 +3,3 @@ import { routes } from "./routes";
 
 const app = document.getElementById("app") as HTMLElement;
 router(app, routes);
-// render(app, App);
