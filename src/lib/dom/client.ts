@@ -1,4 +1,4 @@
-import type { VNode } from "../jsx/type";
+import type { VNode } from "../jsx/types";
 
 const createElement = (node: VNode) => {
   if (typeof node === "string" || typeof node === "number") {

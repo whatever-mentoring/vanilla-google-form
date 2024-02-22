@@ -1,6 +1,6 @@
-import { useEffect, useState } from "./lib/dom";
+import { useEffect, useState } from "@/lib/dom";
 
-const App = () => {
+const HomePage = () => {
   const [list, setList] = useState<string[]>(["안녕"]);
   const [value, setValue] = useState("");
 
@@ -31,18 +31,23 @@ const App = () => {
   };
 
   return (
-    <ul>
-      <input type="text" oninput={handleInput} value={value} />
-      <button onclick={() => addItem()}>추가</button>
-      {list.map((item, index) => (
-        <li>
-          {`${item}-${index}`}
-          {"  "}
-          <button onclick={() => removeItem(index)}>삭제</button>
-        </li>
-      ))}
-    </ul>
+    <div>
+      <ul>
+        <input type="text" oninput={handleInput} value={value} />
+        <button onclick={() => addItem()}>추가</button>
+        {list.map((item, index) => (
+          <li>
+            {`${item}-${index}`}
+            {"  "}
+            <button onclick={() => removeItem(index)}>삭제</button>
+          </li>
+        ))}
+      </ul>
+      <a data-link href="/about/20">
+        어바웃페이지
+      </a>
+    </div>
   );
 };
 
-export default App;
+export default HomePage;

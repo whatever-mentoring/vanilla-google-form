@@ -1,5 +1,6 @@
-import App from "./app";
-import { render } from "./lib/dom";
+import { router } from "./lib/router";
+import { routes } from "./routes";
 
 const app = document.getElementById("app") as HTMLElement;
-render(app, App);
+router(app, routes);
+// render(app, App);

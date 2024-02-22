@@ -1,13 +1,12 @@
 import { shallowEqual } from "@/utils/object";
-import { createElement } from "./client";
 import { updateElement } from "./diff";
-import { VDOM } from "../jsx/type";
+import type { VDOM } from "../jsx/types";
+import type { Component } from "./types";
 
 interface IRenderInfo {
   $root: HTMLElement | null;
-  component: null | (() => any);
+  component: null | Component;
   currentVDOM: VDOM | null;
-  newVDOM: VDOM | null;
 }
 
 const domRenderer = () => {
@@ -20,30 +19,28 @@ const domRenderer = () => {
     $root: null,
     component: null,
     currentVDOM: null,
-    newVDOM: null,
   };
-  const reset = () => {
+  const resetOptions = () => {
     options.hooks = [];
     options.currentHook = 0;
     options.renderCount = 0;
   };
   const _render = () => {
     const { $root, currentVDOM, component } = renderInfo;
-    if (!$root || !currentVDOM) return;
-    const VDOM = component!();
-    updateElement($root, VDOM, currentVDOM);
-    renderInfo.currentVDOM = VDOM;
+    if (!$root) return;
+    const newVDOM = component!();
+    updateElement($root, newVDOM, currentVDOM);
+    renderInfo.currentVDOM = newVDOM;
     options.currentHook = 0;
     options.renderCount += 1;
   };
 
-  const render = (root: HTMLElement, component: () => any) => {
+  const render = (root: HTMLElement, component: Component) => {
+    resetOptions();
     renderInfo.$root = root;
     renderInfo.component = component;
-    renderInfo.currentVDOM = component();
-    const $el = createElement(renderInfo.currentVDOM!);
-    renderInfo.$root?.appendChild($el);
-    reset();
+
+    _render();
   };
 
   const useState = <T>(initialState?: T) => {
