@@ -1,5 +1,5 @@
-import { createRoot } from "./lib/dom";
 import App from "./app";
+import { render } from "./lib/dom";
 
-const root = createRoot(document.getElementById("app") as HTMLElement);
-root.render(<App />);
+const app = document.getElementById("app") as HTMLElement;
+render(app, App);

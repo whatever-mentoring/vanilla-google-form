@@ -1,5 +1,3 @@
-import { VDOM } from "@/lib/jsx/type";
-
 interface Props {
   text: string;
 }

@@ -1,8 +1,8 @@
-import { VDOM } from "./jsx/type";
+import type { VNode } from "../jsx/type";
 
-const createElement = (node: string | VDOM) => {
-  if (typeof node === "string") {
-    return document.createTextNode(node);
+const createElement = (node: VNode) => {
+  if (typeof node === "string" || typeof node === "number") {
+    return document.createTextNode(String(node));
   }
   const element = document.createElement(node.type);
 
@@ -24,13 +24,4 @@ const createElement = (node: string | VDOM) => {
   return element;
 };
 
-const createRoot = (el: HTMLElement) => {
-  return {
-    render: (component: string | VDOM) => {
-      const _el = createElement(component);
-      el.appendChild(_el);
-    },
-  };
-};
-
-export { createElement, createRoot };
+export { createElement };

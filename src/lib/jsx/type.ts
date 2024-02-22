@@ -1,6 +1,6 @@
-export type Child = string | VDOM;
+export type VNode = string | number | VDOM;
 export type VDOM = {
   type: string;
   props: Record<string, any> | null;
-  children: Child[];
+  children: VNode[];
 };
