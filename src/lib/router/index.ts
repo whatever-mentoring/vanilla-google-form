@@ -140,11 +140,11 @@ const push = (path: string) => {
   const { pathname, search } = new URL(window.location.origin + path);
   navigateTo({ path: pathname, search });
 };
-const pop = () => {
+const back = () => {
   window.history.back();
 };
 const currentPath = () => {
   return window.location.pathname;
 };
 
-export { router, replace, push, pop, currentPath, getPageParams };
+export { router, replace, push, back, currentPath, getPageParams };

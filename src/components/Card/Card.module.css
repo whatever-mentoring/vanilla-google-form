@@ -1,0 +1,10 @@
+.cardContainer {
+  margin-top: 12px;
+  background-color: var(--gray-scale-00);
+  border: 1px solid var(--gray-scale-100);
+  border-radius: 8px;
+  margin-bottom: 12px;
+  padding: 24px;
+  padding-top: 22px;
+  position: relative;
+}

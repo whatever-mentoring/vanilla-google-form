@@ -1,0 +1,113 @@
+.borderTop {
+  background-color: var(--primary-500);
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  height: 10px;
+  left: 0;
+  top: 0;
+  position: absolute;
+  padding: 12px 24px;
+  height: 48px;
+  width: 100%;
+}
+
+.borderTop > span {
+  color: var(--gray-scale-00);
+}
+
+.asterisk {
+  color: var(--red-500);
+  padding-left: 0.25em;
+}
+
+.sectionName {
+  padding-top: 48px;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.selectBoxContainer {
+  position: relative;
+  width: 150px;
+  height: 45px;
+  border-radius: 4px;
+  border: 1px solid var(--gray-scale-100);
+}
+
+.selectBoxContainer > select {
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  border: 0;
+  outline: 0;
+  padding: 6px;
+}
+
+.textAreaTitle {
+  margin-bottom: 24px;
+}
+
+.textarea {
+  border: 0;
+  resize: none;
+  width: 100%;
+  border-bottom: 1px solid var(--gray-scale-100);
+  padding: 3px;
+}
+.textarea:focus {
+  outline: none;
+  border-bottom: 1px solid var(--primary-500);
+}
+
+.footerContainer {
+  display: flex;
+}
+
+.footerContainer > button:first-of-type {
+  margin-right: 14px;
+  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2),
+    0 1px 1px 0 rgba(0, 0, 0, 0.141), 0 1px 3px 0 rgba(0, 0, 0, 0.122);
+  background-color: var(--gray-scale-00);
+  font-size: 14px;
+  border-radius: 4px;
+  line-height: 36px;
+  padding: 0 24px;
+  color: var(--primary-500);
+}
+.footerContainer > button:nth-child(2) {
+  font-size: 14px;
+  border-radius: 4px;
+  background-color: var(--primary-500);
+  color: var(--gray-scale-00);
+  line-height: 36px;
+  padding: 0 24px;
+}
+.footerContainer > button:nth-child(3) {
+  font-size: 14px;
+  border-radius: 4px;
+  color: var(--primary-500);
+  line-height: 36px;
+  padding: 0 8px;
+  margin-left: auto;
+  display: block;
+}
+.footerContainer > button:first-of-type:hover {
+  background-color: #f9f7fc;
+}
+
+.footerContainer > button:nth-child(2):hover {
+  background-color: #7654b4;
+  box-shadow: 0px 2px 1px -1px rgba(103, 58, 183, 0.2),
+    0px 1px 1px 0px rgba(103, 58, 183, 0.14),
+    0px 1px 3px 0px rgba(103, 58, 183, 0.12);
+}
+.footerContainer > button:nth-child(3):hover {
+  font-size: 14px;
+  border-radius: 4px;
+  color: var(--primary-500);
+  line-height: 36px;
+  padding: 0 8px;
+  margin-left: auto;
+  display: block;
+  background-color: var(--primary-200);
+}

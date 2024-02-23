@@ -1,0 +1,26 @@
+.borderTop {
+  background-color: var(--primary-500);
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  height: 10px;
+  left: -1px;
+  position: absolute;
+  top: -1px;
+  width: calc(100% + 2px);
+}
+
+.title {
+  font-size: 24pt;
+  font-weight: 400;
+  font-family: "docs-Roboto", Helvetica, Arial, sans-serif;
+  padding-bottom: 12px;
+}
+
+.result {
+  margin-bottom: 25px;
+}
+
+.link {
+  color: rgb(54, 101, 255);
+  text-decoration: underline;
+}
