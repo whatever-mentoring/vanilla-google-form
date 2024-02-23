@@ -30,7 +30,9 @@ const navigateTo = ({
       },
     }
   );
-  dispatchEvent(historyChange);
+  console.log("window", typeof window);
+  console.log("pathname", path);
+  window.dispatchEvent(historyChange);
 };
 
 let pageParams: any;
@@ -77,6 +79,7 @@ const router = (root: HTMLElement, routes: Route[]) => {
       throw new Error("no matching component error");
     } else {
       pageParams = params;
+      console.log("render!!");
       render(root, Component);
     }
   };
@@ -92,13 +95,16 @@ const router = (root: HTMLElement, routes: Route[]) => {
     });
   };
   const initLoad = () => {
+    console.log("initLoad");
     loadRouteComponent(currentPath());
     customizeAnchorBehavior();
 
     window.addEventListener("historychange", (e: unknown) => {
+      console.log("historychange????????");
       const {
         detail: { path, search, isReplace },
       } = e as CustomEvent<HistoryChangeEventData>;
+      console.log("custom event path", path);
       if (isReplace) {
         window.history.replaceState({}, "", path + search);
       } else {
