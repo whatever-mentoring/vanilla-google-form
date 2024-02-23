@@ -1,7 +1,15 @@
 import { useEffect, useState } from "@/lib/dom";
 
 const HomePage = () => {
-  const [list, setList] = useState<string[]>(["안녕"]);
+  const [list, setList] = useState<string[]>([
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+  ]);
   const [value, setValue] = useState("");
 
   useEffect(() => {
@@ -30,6 +38,11 @@ const HomePage = () => {
     setValue(value);
   };
 
+  const removeSixItem = () => {
+    console.log(list.filter((item, i) => i !== 0));
+    setList(list.filter((item, i) => i === 0));
+  };
+
   return (
     <div>
       <ul>
@@ -43,6 +56,7 @@ const HomePage = () => {
           </li>
         ))}
       </ul>
+      <button onclick={removeSixItem}>6개 삭제</button>
       <a data-link href="/about/20">
         어바웃페이지
       </a>
