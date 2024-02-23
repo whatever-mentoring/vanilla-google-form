@@ -9,11 +9,23 @@ interface IRenderInfo {
   currentVDOM: VDOM | null;
 }
 
+interface IOptions {
+  renderCount: number;
+  hooks: any[];
+  dependencies: any[];
+  stateHook: number;
+  effectHook: number;
+  effectList: Array<() => void>;
+}
+
 const domRenderer = () => {
-  const options = {
+  const options: IOptions = {
     renderCount: 0,
-    hooks: [] as any,
-    currentHook: 0,
+    hooks: [],
+    dependencies: [],
+    stateHook: 0,
+    effectHook: 0,
+    effectList: [],
   };
   const renderInfo: IRenderInfo = {
     $root: null,
@@ -22,7 +34,7 @@ const domRenderer = () => {
   };
   const resetOptions = () => {
     options.hooks = [];
-    options.currentHook = 0;
+    options.stateHook = 0;
     options.renderCount = 0;
   };
   const _render = () => {
@@ -31,7 +43,10 @@ const domRenderer = () => {
     const newVDOM = component!();
     updateElement($root, newVDOM, currentVDOM);
     renderInfo.currentVDOM = newVDOM;
-    options.currentHook = 0;
+    options.stateHook = 0;
+    options.effectList.forEach((fn) => fn());
+    options.effectList = [];
+    options.effectHook = 0;
     options.renderCount += 1;
   };
 
@@ -39,34 +54,35 @@ const domRenderer = () => {
     resetOptions();
     renderInfo.$root = root;
     renderInfo.component = component;
-
     _render();
   };
 
   const useState = <T>(initialState?: T) => {
-    const { currentHook: index } = options;
+    const { stateHook: index } = options;
     const state = (options.hooks[index] || initialState) as T;
     const setState = (newState: T) => {
       if (shallowEqual(state, newState)) return;
       options.hooks[index] = newState;
       _render();
     };
-    options.currentHook += 1;
+    options.stateHook += 1;
     return [state, setState] as const;
   };
 
   const useEffect = (callback: () => void, dependencies?: any[]) => {
-    const { hooks, currentHook } = options;
-    const hasNoDeps = !dependencies;
-    const prevDeps = hooks[currentHook];
-    const hasChangedDeps = prevDeps
-      ? !dependencies?.every((el, i) => shallowEqual(el, prevDeps[i]))
-      : true;
-    if (hasNoDeps || hasChangedDeps) {
-      callback();
-      hooks[currentHook] = dependencies;
-    }
-    options.currentHook += 1;
+    const index = options.effectHook;
+    options.effectList[index] = () => {
+      const hasNoDeps = !dependencies;
+      const prevDeps = options.dependencies[index];
+      const hasChangedDeps = prevDeps
+        ? !dependencies?.every((el, i) => shallowEqual(el, prevDeps[i]))
+        : true;
+      if (hasNoDeps || hasChangedDeps) {
+        options.dependencies[index] = dependencies;
+        callback();
+      }
+    };
+    options.effectHook += 1;
   };
 
   return { render, useState, useEffect };

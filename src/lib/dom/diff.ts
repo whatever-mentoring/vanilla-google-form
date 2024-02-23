@@ -10,6 +10,7 @@ const diffTextVDOM = (newVDOM: VNode, currentVDOM: VNode) => {
     if (newVDOM === currentVDOM) return false;
     return true;
   }
+
   return false;
 };
 

@@ -95,7 +95,6 @@ const router = (root: HTMLElement, routes: Route[]) => {
     });
   };
   const initLoad = () => {
-    console.log("initLoad");
     loadRouteComponent(currentPath());
     customizeAnchorBehavior();
 
