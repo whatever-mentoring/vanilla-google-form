@@ -1,8 +1,8 @@
 body {
   background-color: var(--primary-100);
   font-family: var(--fonts-system);
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizelegibility;
+  /* -webkit-font-smoothing: antialiased; */
+  /* text-rendering: optimizelegibility; */
   color: var(--gray-scale-900);
   accent-color: var(--primary-500);
 }

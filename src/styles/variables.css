@@ -1,8 +1,10 @@
 :root {
   --fonts-system: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
   --primary-100: #f0ebf8;
+  --primary-200: #e9e7f7;
   --primary-500: #673ab7;
   --gray-scale-00: #fff;
+  --gray-scale-100: #dadce0;
   --gray-scale-500: #adb1ba;
   --gray-scale-900: #202124;
   --red-500: #d93025;

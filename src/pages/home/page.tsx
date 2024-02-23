@@ -3,7 +3,9 @@ import * as router from "@/lib/router";
 
 const HomePage = () => {
   useEffect(() => {
-    router.replace("/servey/first");
+    setTimeout(() => {
+      router.replace("/servey/first");
+    });
   }, []);
 
   return <div></div>;

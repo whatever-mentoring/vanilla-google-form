@@ -1,8 +1,8 @@
 import PageNotFound from "../not-found";
 import type { Route } from "../lib/router";
-import HomePage from "@/pages/home";
-import FirstPage from "@/pages/servey/first";
-import SecondPage from "@/pages/servey/second";
+import HomePage from "@/pages/home/page";
+import FirstPage from "@/pages/servey/first/page";
+import SecondPage from "@/pages/servey/second/page";
 
 export const routes: Route[] = [
   {
