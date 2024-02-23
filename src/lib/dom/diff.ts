@@ -19,31 +19,30 @@ const updateElement = (
   currentVDOM: VNode | null,
   index: number = 0
 ) => {
+  let removeIndex: undefined | number = undefined;
   if (parent.childNodes) {
     if (!newVDOM && currentVDOM) {
-      return parent.removeChild(parent.childNodes[index]);
+      parent.removeChild(parent.childNodes[index]);
+      return index;
     }
   }
 
   if (!currentVDOM) {
-    return parent.appendChild(createElement(newVDOM));
+    parent.appendChild(createElement(newVDOM));
+    return;
   }
 
   if (diffTextVDOM(newVDOM, currentVDOM)) {
-    return parent.replaceChild(
-      createElement(newVDOM),
-      parent.childNodes[index]
-    );
+    parent.replaceChild(createElement(newVDOM), parent.childNodes[index]);
+    return;
   }
 
   if (typeof newVDOM === "string" || typeof currentVDOM === "string") return;
   if (typeof newVDOM === "number" || typeof currentVDOM === "number") return;
 
   if (newVDOM.type !== currentVDOM.type) {
-    return parent.replaceChild(
-      createElement(newVDOM),
-      parent.childNodes[index]
-    );
+    parent.replaceChild(createElement(newVDOM), parent.childNodes[index]);
+    return;
   }
 
   updateAttributes(
@@ -57,12 +56,13 @@ const updateElement = (
     currentVDOM.children.length
   );
   for (let i = 0; i < maxLength; i++) {
-    updateElement(
+    const _removeIndex = updateElement(
       parent.childNodes[index] as Element,
       newVDOM.children[i],
       currentVDOM.children[i],
-      i
+      removeIndex ?? i
     );
+    removeIndex = _removeIndex;
   }
 };
 
