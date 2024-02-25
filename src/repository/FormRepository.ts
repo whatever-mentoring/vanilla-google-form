@@ -17,8 +17,12 @@ class FormStorage extends LocalStorage<FormStorageKey> {
   setRadioInput(input: string) {
     this.set(FormStorageKey.RADIO_INPUT, input);
   }
-  getCheckboxInput() {
-    return this.get(FormStorageKey.CHECKBOX_INPUT);
+  getCheckboxInput(): string[] {
+    const value = this.get(FormStorageKey.CHECKBOX_INPUT);
+    return value ? JSON.parse(value) : [];
+  }
+  setCheckboxInput(input: string[]) {
+    this.set(FormStorageKey.CHECKBOX_INPUT, JSON.stringify(input));
   }
   getSelectBoxOption() {
     return this.get(FormStorageKey.SELECTBOX_OPTION);

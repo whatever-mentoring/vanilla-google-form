@@ -1,4 +1,4 @@
-import { shallowEqual } from "@/utils/object";
+import { shallowArrayEqual, shallowEqual } from "@/utils/object";
 import { updateElement } from "./diff";
 import type { VDOM } from "../jsx/types";
 import type { Component } from "./types";
@@ -11,7 +11,7 @@ interface IRenderInfo {
 
 interface IOptions {
   renderCount: number;
-  hooks: any[];
+  states: any[];
   dependencies: any[];
   stateHook: number;
   effectHook: number;
@@ -21,7 +21,7 @@ interface IOptions {
 const domRenderer = () => {
   const options: IOptions = {
     renderCount: 0,
-    hooks: [],
+    states: [],
     dependencies: [],
     stateHook: 0,
     effectHook: 0,
@@ -33,20 +33,27 @@ const domRenderer = () => {
     currentVDOM: null,
   };
   const resetOptions = () => {
-    options.hooks = [];
+    options.states = [];
     options.stateHook = 0;
     options.renderCount = 0;
+    //...
+    options.effectList = [];
+    options.dependencies = [];
+    options.effectHook = 0;
   };
   const _render = () => {
     const { $root, currentVDOM, component } = renderInfo;
-    if (!$root) return;
-    const newVDOM = component!();
+    if (!$root || !component) return;
+
+    const newVDOM = component();
     updateElement($root, newVDOM, currentVDOM);
-    renderInfo.currentVDOM = newVDOM;
+
     options.stateHook = 0;
+    options.effectHook = 0;
+    renderInfo.currentVDOM = newVDOM;
+
     options.effectList.forEach((fn) => fn());
     options.effectList = [];
-    options.effectHook = 0;
     options.renderCount += 1;
   };
 
@@ -59,10 +66,10 @@ const domRenderer = () => {
 
   const useState = <T>(initialState?: T) => {
     const { stateHook: index } = options;
-    const state = (options.hooks[index] || initialState) as T;
+    const state = (options.states[index] || initialState) as T;
     const setState = (newState: T) => {
       if (shallowEqual(state, newState)) return;
-      options.hooks[index] = newState;
+      options.states[index] = newState;
       _render();
     };
     options.stateHook += 1;
@@ -75,7 +82,7 @@ const domRenderer = () => {
       const hasNoDeps = !dependencies;
       const prevDeps = options.dependencies[index];
       const hasChangedDeps = prevDeps
-        ? !dependencies?.every((el, i) => shallowEqual(el, prevDeps[i]))
+        ? !shallowArrayEqual(dependencies ?? [], prevDeps)
         : true;
       if (hasNoDeps || hasChangedDeps) {
         options.dependencies[index] = dependencies;

@@ -79,7 +79,6 @@ const router = (root: HTMLElement, routes: Route[]) => {
       throw new Error("no matching component error");
     } else {
       pageParams = params;
-      console.log("render!!");
       render(root, Component);
     }
   };
