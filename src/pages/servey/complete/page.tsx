@@ -1,8 +1,13 @@
 import BaseLayout from "@/pages/layouts/BaseLayout";
 import styles from "./complete.module.css";
 import Card from "@/components/Card/Card";
+import { useEffect, useState } from "@/lib/dom";
+import FormRepository from "@/repository/FormRepository";
 const CompletePage = () => {
-  const result = "sfsdfadfasdf";
+  const [result, setResult] = useState("");
+  useEffect(() => {
+    setResult(FormRepository.getAllForm());
+  }, []);
   return (
     <BaseLayout>
       <Card>

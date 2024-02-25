@@ -63,7 +63,7 @@
   display: flex;
 }
 
-.footerContainer > button:first-of-type {
+.backButton {
   margin-right: 14px;
   box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2),
     0 1px 1px 0 rgba(0, 0, 0, 0.141), 0 1px 3px 0 rgba(0, 0, 0, 0.122);
@@ -74,7 +74,10 @@
   padding: 0 24px;
   color: var(--primary-500);
 }
-.footerContainer > button:nth-child(2) {
+.backButton:hover {
+  background-color: #f9f7fc;
+}
+.submitButton {
   font-size: 14px;
   border-radius: 4px;
   background-color: var(--primary-500);
@@ -82,7 +85,13 @@
   line-height: 36px;
   padding: 0 24px;
 }
-.footerContainer > button:nth-child(3) {
+.submitButton:hover {
+  background-color: #7654b4;
+  box-shadow: 0px 2px 1px -1px rgba(103, 58, 183, 0.2),
+    0px 1px 1px 0px rgba(103, 58, 183, 0.14),
+    0px 1px 3px 0px rgba(103, 58, 183, 0.12);
+}
+.resetButton {
   font-size: 14px;
   border-radius: 4px;
   color: var(--primary-500);
@@ -91,17 +100,7 @@
   margin-left: auto;
   display: block;
 }
-.footerContainer > button:first-of-type:hover {
-  background-color: #f9f7fc;
-}
-
-.footerContainer > button:nth-child(2):hover {
-  background-color: #7654b4;
-  box-shadow: 0px 2px 1px -1px rgba(103, 58, 183, 0.2),
-    0px 1px 1px 0px rgba(103, 58, 183, 0.14),
-    0px 1px 3px 0px rgba(103, 58, 183, 0.12);
-}
-.footerContainer > button:nth-child(3):hover {
+.resetButton:hover {
   font-size: 14px;
   border-radius: 4px;
   color: var(--primary-500);

@@ -2,48 +2,52 @@ import { useEffect, useState } from "@/lib/dom";
 import FormRepository from "@/repository/FormRepository";
 import * as router from "@/lib/router";
 
-type SelectInput = { text: string; value: string; checked: boolean };
+type Input = { text: string; value: string; checked: boolean };
 
-const radioListInit = [
+const radioListInit: Input[] = [
   { text: "radio option1", value: "radio option1", checked: false },
   { text: "radio option2", value: "radio option2", checked: false },
   { text: "radio option3", value: "radio option3", checked: false },
 ];
 
-const checkboxListInit = [
+const checkboxListInit: Input[] = [
   { text: "checkbox option1", value: "checkbox option1", checked: false },
   { text: "checkbox option2", value: "checkbox option2", checked: false },
   { text: "checkbox option3", value: "checkbox option3", checked: false },
 ];
 
 const useFirstPageViewModel = () => {
-  const [radioList, setRadioList] = useState<SelectInput[]>(radioListInit);
-  const [checkboxList, setCheckboxList] =
-    useState<SelectInput[]>(checkboxListInit);
+  const [radioList, setRadioList] = useState<Input[]>(radioListInit);
+  const [checkboxList, setCheckboxList] = useState<Input[]>(checkboxListInit);
+
   useEffect(() => {
-    const value = FormRepository.getRadioInput();
+    const radioValue = FormRepository.getRadioInput();
     setRadioList(
-      radioList.map((radio) => ({ ...radio, checked: radio.value === value }))
+      radioList.map((radio) => ({
+        ...radio,
+        checked: radio.value === radioValue,
+      }))
     );
-  }, []);
-  useEffect(() => {
-    const valueList = FormRepository.getCheckboxInput();
+
+    const checkboxValueList = FormRepository.getCheckboxInput();
     const check = checkboxList.map((checkbox) => ({
       ...checkbox,
-      checked: valueList.some((value) => value === checkbox.value),
+      checked: checkboxValueList.some((value) => value === checkbox.value),
     }));
     setCheckboxList(check);
   }, []);
+
   const handleRaidioChange = (e: InputEvent) => {
     const value = (e.target as any).value;
     setRadioList(
       radioList.map((radio) => ({
         ...radio,
-        checked: radio.checked === false ? radio.value === value : true,
+        checked: radio.value === value,
       }))
     );
     FormRepository.setRadioInput(value);
   };
+
   const handleCheckboxChange = (e: InputEvent) => {
     const { value, checked } = e.target as any;
     const updatedRadioList = checkboxList.map((checkbox) => ({
@@ -57,11 +61,13 @@ const useFirstPageViewModel = () => {
         .map((radio) => radio.value)
     );
   };
+
   const formValidation = () => {
     const isRadioChecked = radioList.some((radio) => radio.checked);
     const isCheckboxChecked = checkboxList.some((checkbox) => checkbox.checked);
     return isRadioChecked && isCheckboxChecked;
   };
+
   const handleSubmit = (e: Event) => {
     e.preventDefault();
     if (formValidation()) {
@@ -70,10 +76,14 @@ const useFirstPageViewModel = () => {
   };
 
   const removeAllInputValue = () => {
+    console.log("왜 지워지지?");
     setRadioList(radioListInit);
     setCheckboxList(checkboxListInit);
-    FormRepository.allClear();
+
+    FormRepository.clearRadioInput();
+    FormRepository.clearCheckboxInput();
   };
+
   return {
     handleSubmit,
     radioList,

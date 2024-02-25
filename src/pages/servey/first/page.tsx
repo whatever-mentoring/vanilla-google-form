@@ -1,7 +1,6 @@
 import BaseLayout from "@/pages/layouts/BaseLayout";
 import styles from "./first.module.css";
 import ServeyTitle from "../components/ServeyTitle";
-
 import Card from "@/components/Card/Card";
 import useFirstPageViewModel from "./hooks/useFirstPageViewModel";
 
@@ -63,10 +62,18 @@ const FirstPage = () => {
           </div>
         </Card>
         <div className={styles.footerContainer}>
-          <button type="submit" onclick={handleSubmit}>
+          <button
+            className={styles.nextButton}
+            type="submit"
+            onclick={handleSubmit}
+          >
             다음
           </button>
-          <button type="button" onclick={removeAllInputValue}>
+          <button
+            className={styles.resetButton}
+            type="reset"
+            onclick={removeAllInputValue}
+          >
             양식 지우기
           </button>
         </div>

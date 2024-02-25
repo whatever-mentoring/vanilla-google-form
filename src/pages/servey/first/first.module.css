@@ -49,7 +49,7 @@
   justify-content: space-between;
 }
 
-.footerContainer > button:first-of-type {
+.nextButton {
   margin-right: 14px;
   box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2),
     0 1px 1px 0 rgba(0, 0, 0, 0.141), 0 1px 3px 0 rgba(0, 0, 0, 0.122);
@@ -60,16 +60,15 @@
   padding: 0 24px;
   color: var(--primary-500);
 }
-.footerContainer > button:nth-child(2) {
+.nextButton:hover {
+  background-color: #f9f7fc;
+}
+.resetButton {
   padding: 0 8px;
   font-size: 14px;
   border-radius: 4px;
   color: var(--primary-500);
 }
-.footerContainer > button:first-of-type:hover {
-  background-color: #f9f7fc;
-}
-
-.footerContainer > button:nth-child(2):hover {
+.resetButton:hover {
   background-color: var(--primary-200);
 }
