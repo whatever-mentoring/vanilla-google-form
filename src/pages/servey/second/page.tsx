@@ -54,20 +54,12 @@ const SecondPage = () => {
           </div>
         </Card>
         <div className={styles.footerContainer}>
-          <div>
-            <button
-              className={styles.backButton}
-              type="button"
-              onclick={goBack}
-            >
-              뒤로
-            </button>
-          </div>
-          <div>
-            <button className={styles.submitButton} type="submit">
-              제출
-            </button>
-          </div>
+          <button className={styles.backButton} type="button" onclick={goBack}>
+            뒤로
+          </button>
+          <button className={styles.submitButton} type="submit">
+            제출
+          </button>
           <button
             className={styles.resetButton}
             type="reset"

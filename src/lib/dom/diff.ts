@@ -87,7 +87,13 @@ function updateAttributes(
 
   for (const attr of Object.keys(oldProps)) {
     if (newProps[attr] !== undefined) continue;
-    target.removeAttribute(attr);
+    if (attr.startsWith("on")) {
+      (target as any)[attr] = null;
+    } else if (attr.startsWith("class")) {
+      target.removeAttribute("class");
+    } else {
+      target.removeAttribute(attr);
+    }
   }
 }
 

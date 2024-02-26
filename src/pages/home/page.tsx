@@ -3,7 +3,7 @@ import { history } from "@/lib/router";
 
 const HomePage = () => {
   useEffect(() => {
-    history.push("/servey/first");
+    history.replace("/servey/first");
   }, []);
   return null;
 };
