@@ -46,7 +46,6 @@ const domRenderer = () => {
     if (!$root || !component) return;
 
     const newVDOM = component();
-    console.log("_render : ", newVDOM);
     updateElement($root, newVDOM, currentVDOM);
     options.stateHook = 0;
     options.effectHook = 0;

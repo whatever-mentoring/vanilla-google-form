@@ -12,10 +12,10 @@ export const createVDOM = (
   const arr = children.flat().map((child) => {
     if (typeof child === "string" || typeof child === "number") {
       return child;
-    } else if (typeof child === "object") {
-      return { ...child };
     } else if (child === undefined || child === null) {
       return { type: "fragment", props: null, children: [] };
+    } else if (typeof child === "object") {
+      return { ...child };
     }
   });
   return { type: component, props, children: arr };

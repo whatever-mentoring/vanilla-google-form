@@ -17,7 +17,7 @@ const diffTextVDOM = (newVDOM: VNode, currentVDOM: VNode) => {
 const updateElement = (
   parent: Element,
   newVDOM: VNode,
-  currentVDOM: VNode | null,
+  currentVDOM: VNode,
   index: number = 0
 ) => {
   let removeIndex: undefined | number = undefined;
@@ -45,6 +45,7 @@ const updateElement = (
     return;
   }
 
+  if (!newVDOM || !currentVDOM) return;
   if (typeof newVDOM === "string" || typeof currentVDOM === "string") return;
   if (typeof newVDOM === "number" || typeof currentVDOM === "number") return;
 

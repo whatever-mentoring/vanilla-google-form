@@ -1,6 +1,9 @@
 import type { VNode } from "../jsx/types";
 
 const createElement = (node: VNode) => {
+  if (node === null || node === undefined) {
+    return document.createDocumentFragment();
+  }
   if (typeof node === "string" || typeof node === "number") {
     return document.createTextNode(String(node));
   }
