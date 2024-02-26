@@ -4,6 +4,12 @@ const createElement = (node: VNode) => {
   if (typeof node === "string" || typeof node === "number") {
     return document.createTextNode(String(node));
   }
+
+  const isFragment = node.type === "fragment";
+  if (isFragment) {
+    return document.createDocumentFragment();
+  }
+
   const element = document.createElement(node.type);
 
   Object.entries(node.props || {}).forEach(([attr, value]) => {

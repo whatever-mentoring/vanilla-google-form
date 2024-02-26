@@ -21,6 +21,7 @@ const updateElement = (
   index: number = 0
 ) => {
   let removeIndex: undefined | number = undefined;
+
   if (parent.childNodes) {
     if (!newVDOM && currentVDOM) {
       parent.removeChild(parent.childNodes[index]);
@@ -30,6 +31,12 @@ const updateElement = (
 
   if (!currentVDOM) {
     parent.appendChild(createElement(newVDOM));
+    return;
+  }
+
+  if (newVDOM && (currentVDOM as any)?.type === "fragment") {
+    // 두 번째 매개변수가 존재하지 않을 경우 부모요소의 가장 마지막에 추가된다.
+    parent.insertBefore(createElement(newVDOM), parent.childNodes[index]);
     return;
   }
 

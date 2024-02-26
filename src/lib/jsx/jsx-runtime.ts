@@ -9,5 +9,14 @@ export const createVDOM = (
   if (typeof component === "function") {
     return component({ ...props, children });
   }
-  return { type: component, props, children: children.flat() };
+  const arr = children.flat().map((child) => {
+    if (typeof child === "string" || typeof child === "number") {
+      return child;
+    } else if (typeof child === "object") {
+      return { ...child };
+    } else if (child === undefined || child === null) {
+      return { type: "fragment", props: null, children: [] };
+    }
+  });
+  return { type: component, props, children: arr };
 };
