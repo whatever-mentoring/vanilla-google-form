@@ -30,8 +30,6 @@ const navigateTo = ({
       },
     }
   );
-  console.log("window", typeof window);
-  console.log("pathname", path);
   window.dispatchEvent(historyChange);
 };
 
@@ -98,11 +96,9 @@ const router = (root: HTMLElement, routes: Route[]) => {
     customizeAnchorBehavior();
 
     window.addEventListener("historychange", (e: unknown) => {
-      console.log("historychange????????");
       const {
         detail: { path, search, isReplace },
       } = e as CustomEvent<HistoryChangeEventData>;
-      console.log("custom event path", path);
       if (isReplace) {
         window.history.replaceState({}, "", path + search);
       } else {

@@ -19,6 +19,8 @@ const checkboxListInit: Input[] = [
 const useFirstPageViewModel = () => {
   const [radioList, setRadioList] = useState<Input[]>(radioListInit);
   const [checkboxList, setCheckboxList] = useState<Input[]>(checkboxListInit);
+  const [isRadioChecked, setIsRadioChecked] = useState(true);
+  const [isCheckboxChecked, setIsCheckboxChecked] = useState(true);
 
   useEffect(() => {
     const radioValue = FormRepository.getRadioInput();
@@ -65,6 +67,9 @@ const useFirstPageViewModel = () => {
   const formValidation = () => {
     const isRadioChecked = radioList.some((radio) => radio.checked);
     const isCheckboxChecked = checkboxList.some((checkbox) => checkbox.checked);
+
+    setIsRadioChecked(isRadioChecked);
+    setIsCheckboxChecked(isCheckboxChecked);
     return isRadioChecked && isCheckboxChecked;
   };
 
@@ -76,7 +81,6 @@ const useFirstPageViewModel = () => {
   };
 
   const removeAllInputValue = () => {
-    console.log("왜 지워지지?");
     setRadioList(radioListInit);
     setCheckboxList(checkboxListInit);
 
@@ -91,6 +95,8 @@ const useFirstPageViewModel = () => {
     checkboxList,
     handleCheckboxChange,
     removeAllInputValue,
+    isRadioChecked,
+    isCheckboxChecked,
   };
 };
 

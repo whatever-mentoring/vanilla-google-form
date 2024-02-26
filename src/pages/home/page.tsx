@@ -1,5 +1,4 @@
 import { useEffect, useState } from "@/lib/dom";
-import { shallowArrayEqual } from "@/utils/object";
 // import * as router from "@/lib/router";
 
 const HomePage = () => {
@@ -11,8 +10,11 @@ const HomePage = () => {
   const [str, setStr] = useState<string>("");
   useEffect(() => {
     console.log("render-1");
-    setId(10);
-  }, [id]);
+    setItem([
+      { age: 18, name: "안녕" },
+      { age: 18, name: "gkdl" },
+    ]);
+  }, [item]);
   useEffect(() => {
     console.log("render-2");
   }, []);
@@ -26,7 +28,7 @@ const HomePage = () => {
     <div>
       {id}
       {str}
-      {item[1].name}
+      {item[0].name}
       <button onclick={handleClick}>버튼</button>
     </div>
   );

@@ -12,13 +12,15 @@ const FirstPage = () => {
     checkboxList,
     handleCheckboxChange,
     removeAllInputValue,
+    isRadioChecked,
+    isCheckboxChecked,
   } = useFirstPageViewModel();
 
   return (
     <BaseLayout>
       <form onsubmit={handleSubmit}>
         <ServeyTitle />
-        <Card>
+        <Card isError={!isRadioChecked}>
           <div className={styles.formSectionNameWrapper}>
             <span>radio input</span>
             <span className={styles.asterisk}>*</span>
@@ -40,7 +42,7 @@ const FirstPage = () => {
             ))}
           </div>
         </Card>
-        <Card>
+        <Card isError={!isCheckboxChecked}>
           <div className={styles.formSectionNameWrapper}>
             <span>checkbox input</span>
             <span className={styles.asterisk}>*</span>
