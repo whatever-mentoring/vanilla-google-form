@@ -15,6 +15,7 @@ const SecondPage = () => {
     handleInput,
     goBack,
     removeAllInputValue,
+    handleInputBlur
   } = useSecondPageViewModel();
 
   return (
@@ -49,6 +50,7 @@ const SecondPage = () => {
               className={styles.textarea}
               value={text}
               rows={1}
+              onblur={handleInputBlur}
               oninput={handleInput}
             />
           </div>

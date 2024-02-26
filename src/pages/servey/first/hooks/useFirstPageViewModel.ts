@@ -39,15 +39,20 @@ const useFirstPageViewModel = () => {
     setCheckboxList(check);
   }, []);
 
+  const radioValidate = (radioList: Input[]) =>
+    radioList.some((radio) => radio.checked);
+  const checkboxValidate = (checkboxList: Input[]) =>
+    checkboxList.some((checkbox) => checkbox.checked);
+
   const handleRaidioChange = (e: InputEvent) => {
     const value = (e.target as any).value;
-    setRadioList(
-      radioList.map((radio) => ({
-        ...radio,
-        checked: radio.value === value,
-      }))
-    );
+    const updatedRadioList = radioList.map((radio) => ({
+      ...radio,
+      checked: radio.value === value,
+    }));
+    setRadioList(updatedRadioList);
     FormRepository.setRadioInput(value);
+    setIsRadioChecked(radioValidate(updatedRadioList));
   };
 
   const handleCheckboxChange = (e: InputEvent) => {
@@ -62,11 +67,12 @@ const useFirstPageViewModel = () => {
         .filter((radio) => radio.checked)
         .map((radio) => radio.value)
     );
+    setIsCheckboxChecked(checkboxValidate(updatedRadioList));
   };
 
   const formValidation = () => {
-    const isRadioChecked = radioList.some((radio) => radio.checked);
-    const isCheckboxChecked = checkboxList.some((checkbox) => checkbox.checked);
+    const isRadioChecked = radioValidate(radioList);
+    const isCheckboxChecked = checkboxValidate(checkboxList);
 
     setIsRadioChecked(isRadioChecked);
     setIsCheckboxChecked(isCheckboxChecked);
@@ -83,6 +89,8 @@ const useFirstPageViewModel = () => {
   const removeAllInputValue = () => {
     setRadioList(radioListInit);
     setCheckboxList(checkboxListInit);
+    setIsRadioChecked(true);
+    setIsCheckboxChecked(true);
 
     FormRepository.clearRadioInput();
     FormRepository.clearCheckboxInput();

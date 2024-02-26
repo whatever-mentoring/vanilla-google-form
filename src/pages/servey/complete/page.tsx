@@ -3,11 +3,16 @@ import styles from "./complete.module.css";
 import Card from "@/components/Card/Card";
 import { useEffect, useState } from "@/lib/dom";
 import FormRepository from "@/repository/FormRepository";
+import { history } from "@/lib/router";
 const CompletePage = () => {
   const [result, setResult] = useState("");
   useEffect(() => {
     setResult(FormRepository.getAllForm());
   }, []);
+  const goFirstPage = () => {
+    FormRepository.allClear();
+    history.push("/servey/first");
+  };
   return (
     <BaseLayout>
       <Card>
@@ -17,9 +22,9 @@ const CompletePage = () => {
         <div className={styles.result}>
           <p>{result}</p>
         </div>
-        <a data-link href="/servey/first" className={styles.link}>
+        <div onclick={goFirstPage} className={styles.link}>
           처음으로
-        </a>
+        </div>
       </Card>
     </BaseLayout>
   );

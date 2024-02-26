@@ -45,9 +45,13 @@ const useSecondPageViewModel = () => {
     history.back();
   };
 
+  const selectValidate = (selectList: Select[]) =>
+    selectList.some((select) => select.value !== null && select.selected);
+  const textValidate = (text: string) => !!text;
+
   const formValidation = () => {
-    const isSelectedValue = selectList.some((select) => select.selected);
-    const isTextValue = !!text;
+    const isSelectedValue = selectValidate(selectList);
+    const isTextValue = textValidate(text);
     setIsSelectedValue(isSelectedValue);
     setIsTextValue(isTextValue);
     return isSelectedValue && isTextValue;
@@ -75,25 +79,30 @@ const useSecondPageViewModel = () => {
 
   const handleChangeSelect = (e: InputEvent) => {
     const value = (e.target as any).value;
-    setSelectList(
-      selectList.map((select) => ({
-        ...select,
-        selected: select.value === value,
-      }))
-    );
+    const updatedSelectList = selectList.map((select) => ({
+      ...select,
+      selected: select.value === value,
+    }));
+    setSelectList(updatedSelectList);
     FormRepository.setSelectBoxOption(value);
+    setIsSelectedValue(selectValidate(updatedSelectList));
   };
 
   const handleInput = (e: InputEvent) =>
     debounce(() => {
+      setIsTextValue(true);
       const value = (e.target as any).value;
       setText(value);
       FormRepository.setTextAreaInput(value);
-    }, 200);
-
+    }, 50);
+  const handleInputBlur = () => {
+    setIsTextValue(textValidate(text));
+  };
   const removeAllInputValue = () => {
     setSelectList(selectListInit);
     setText("");
+    setIsSelectedValue(true);
+    setIsTextValue(true);
     FormRepository.clearSelectBoxOption();
     FormRepository.clearTextAreaInput();
   };
@@ -108,6 +117,7 @@ const useSecondPageViewModel = () => {
     handleInput,
     goBack,
     removeAllInputValue,
+    handleInputBlur,
   };
 };
 
