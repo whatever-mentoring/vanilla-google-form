@@ -69,7 +69,6 @@ const domRenderer = () => {
     const state = (options.states[index] ?? initialState) as T;
     const setState = (newState: T) => {
       if (shallowEqual(state, newState)) return;
-      console.log("render");
       options.states[index] = newState;
       _render();
     };

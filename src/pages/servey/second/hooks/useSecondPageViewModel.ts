@@ -27,6 +27,14 @@ const selectListInit: Select[] = [
   },
 ];
 
+const debounce = (() => {
+  let timeoutId: ReturnType<typeof setTimeout>;
+  return (callback: () => void, ms: number) => {
+    timeoutId && clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback(), ms);
+  };
+})();
+
 const useSecondPageViewModel = () => {
   const [selectList, setSelectList] = useState<Select[]>(selectListInit);
   const [text, setText] = useState<string>("");
@@ -76,17 +84,20 @@ const useSecondPageViewModel = () => {
     FormRepository.setSelectBoxOption(value);
   };
 
-  const handleInput = (e: InputEvent) => {
-    const value = (e.target as any).value;
-    setText(value);
-    FormRepository.setTextAreaInput(value);
-  };
+  const handleInput = (e: InputEvent) =>
+    debounce(() => {
+      const value = (e.target as any).value;
+      setText(value);
+      FormRepository.setTextAreaInput(value);
+    }, 200);
+
   const removeAllInputValue = () => {
     setSelectList(selectListInit);
     setText("");
     FormRepository.clearSelectBoxOption();
     FormRepository.clearTextAreaInput();
   };
+
   return {
     handleSubmit,
     isSelectedValue,
