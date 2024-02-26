@@ -1,4 +1,4 @@
-import * as router from "@/lib/router";
+import { history } from "@/lib/router";
 import { useEffect, useState } from "@/lib/dom";
 import FormRepository from "@/repository/FormRepository";
 
@@ -42,7 +42,7 @@ const useSecondPageViewModel = () => {
   const [isTextValue, setIsTextValue] = useState(true);
 
   const goBack = () => {
-    router.back();
+    history.back();
   };
 
   const formValidation = () => {
@@ -56,7 +56,7 @@ const useSecondPageViewModel = () => {
   const handleSubmit = (e: Event) => {
     e.preventDefault();
     if (formValidation()) {
-      router.push("/servey/complete");
+      history.push("/servey/complete");
     }
   };
 

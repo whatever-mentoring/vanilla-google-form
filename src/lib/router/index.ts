@@ -15,27 +15,31 @@ export type Route = {
   children?: Route[];
 };
 
-const navigateTo = ({
-  path,
-  search,
-  isReplace = false,
-}: HistoryChangeEventData) => {
-  const historyChange = new CustomEvent<HistoryChangeEventData>(
-    "historychange",
-    {
-      detail: {
-        path,
-        search,
-        isReplace,
-      },
-    }
-  );
-  window.dispatchEvent(historyChange);
-};
+// const navigateTo = ({
+//   path,
+//   search,
+//   isReplace = false,
+// }: HistoryChangeEventData) => {
+//   const historyChange = new CustomEvent<HistoryChangeEventData>(
+//     "historychange",
+//     {
+//       detail: {
+//         path,
+//         search,
+//         isReplace,
+//       },
+//     }
+//   );
+//   window.dispatchEvent(historyChange);
+// };
 
-let pageParams: any;
+const spaRouter = () => {
+  let pageParams: any;
+  const routeInfo: { root: HTMLElement | null; routes: Route[] | null } = {
+    root: null,
+    routes: null,
+  };
 
-const router = (root: HTMLElement, routes: Route[]) => {
   const matchUrlToRoute = (routes: Route[], path: string) => {
     const segments = path.split("/").map((segment) => {
       if (segment === "") return "/";
@@ -71,74 +75,98 @@ const router = (root: HTMLElement, routes: Route[]) => {
     ``;
     return traverse(routes, segments);
   };
+
   const loadRouteComponent = (path: string) => {
-    const { Component, params } = matchUrlToRoute(routes, path);
+    const { Component, params } = matchUrlToRoute(routeInfo.routes ?? [], path);
     if (!Component) {
       throw new Error("no matching component error");
     } else {
       pageParams = params;
-      render(root, Component);
+      if (routeInfo.root) {
+        render(routeInfo.root, Component);
+      } else {
+        throw new Error("root element is empty");
+      }
     }
   };
-  // attach "data-link" to attribute of anchor tag when use custom anchor tag
-  const customizeAnchorBehavior = () => {
-    window.addEventListener("click", (e) => {
-      const el = e.target as HTMLElement;
-      const anchor = el.closest("a[data-link]");
-      if (!(anchor instanceof HTMLAnchorElement)) return;
-      if (!anchor) return;
-      e.preventDefault();
-      push(anchor.pathname + anchor.search);
-    });
+
+  const history = {
+    getPageParams() {
+      return pageParams;
+    },
+    replace(path: string) {
+      const { pathname, search } = new URL(window.location.origin + path);
+      window.history.replaceState({}, "", pathname + search);
+      loadRouteComponent(pathname);
+    },
+    push(path: string) {
+      const { pathname, search } = new URL(window.location.origin + path);
+      window.history.pushState(
+        {
+          scrollTop:
+            document.body.scrollHeight || document.documentElement.scrollHeight,
+        },
+        "",
+        pathname + search
+      );
+      loadRouteComponent(pathname);
+    },
+    back() {
+      window.history.back();
+    },
+    currentPath() {
+      return window.location.pathname;
+    },
   };
-  const initLoad = () => {
-    loadRouteComponent(currentPath());
-    customizeAnchorBehavior();
 
-    window.addEventListener("historychange", (e: unknown) => {
-      const {
-        detail: { path, search, isReplace },
-      } = e as CustomEvent<HistoryChangeEventData>;
-      if (isReplace) {
-        window.history.replaceState({}, "", path + search);
-      } else {
-        window.history.pushState(
-          {
-            scrollTop:
-              document.body.scrollHeight ||
-              document.documentElement.scrollHeight,
-          },
-          "",
-          path + search
-        );
-      }
-      loadRouteComponent(path);
-    });
+  const router = (root: HTMLElement, routes: Route[]) => {
+    routeInfo.root = root;
+    routeInfo.routes = routes;
 
-    window.addEventListener("popstate", () => {
-      loadRouteComponent(currentPath());
-    });
+    // attach "data-link" to attribute of anchor tag when use custom anchor tag
+    const customizeAnchorBehavior = () => {
+      window.addEventListener("click", (e) => {
+        const el = e.target as HTMLElement;
+        const anchor = el.closest("a[data-link]");
+        if (!(anchor instanceof HTMLAnchorElement)) return;
+        if (!anchor) return;
+        e.preventDefault();
+        history.push(anchor.pathname + anchor.search);
+      });
+    };
+    const initLoad = () => {
+      loadRouteComponent(history.currentPath());
+      customizeAnchorBehavior();
+
+      window.addEventListener("historychange", (e: unknown) => {
+        const {
+          detail: { path, search, isReplace },
+        } = e as CustomEvent<HistoryChangeEventData>;
+        if (isReplace) {
+          window.history.replaceState({}, "", path + search);
+        } else {
+          window.history.pushState(
+            {
+              scrollTop:
+                document.body.scrollHeight ||
+                document.documentElement.scrollHeight,
+            },
+            "",
+            path + search
+          );
+        }
+        loadRouteComponent(path);
+      });
+
+      window.addEventListener("popstate", () => {
+        loadRouteComponent(history.currentPath());
+      });
+    };
+
+    initLoad();
   };
-  initLoad();
+
+  return { history, router };
 };
 
-const getPageParams = () => {
-  return pageParams;
-};
-
-const replace = (path: string) => {
-  const { pathname, search } = new URL(window.location.origin + path);
-  navigateTo({ path: pathname, search, isReplace: true });
-};
-const push = (path: string) => {
-  const { pathname, search } = new URL(window.location.origin + path);
-  navigateTo({ path: pathname, search });
-};
-const back = () => {
-  window.history.back();
-};
-const currentPath = () => {
-  return window.location.pathname;
-};
-
-export { router, replace, push, back, currentPath, getPageParams };
+export const { history, router } = spaRouter();

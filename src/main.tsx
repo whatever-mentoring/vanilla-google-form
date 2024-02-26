@@ -1,3 +1,4 @@
+// import { router } from "./lib/router";
 import { router } from "./lib/router";
 import { routes } from "./routes";
 import "./styles/index.css";

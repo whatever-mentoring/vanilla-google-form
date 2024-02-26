@@ -1,6 +1,6 @@
 import { useEffect, useState } from "@/lib/dom";
 import FormRepository from "@/repository/FormRepository";
-import * as router from "@/lib/router";
+import { history } from "@/lib/router";
 
 type Input = { text: string; value: string; checked: boolean };
 
@@ -76,7 +76,7 @@ const useFirstPageViewModel = () => {
   const handleSubmit = (e: Event) => {
     e.preventDefault();
     if (formValidation()) {
-      router.push("/servey/second");
+      history.push("/servey/second");
     }
   };
 
