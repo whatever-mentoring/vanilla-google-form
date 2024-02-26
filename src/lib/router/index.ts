@@ -15,24 +15,6 @@ export type Route = {
   children?: Route[];
 };
 
-// const navigateTo = ({
-//   path,
-//   search,
-//   isReplace = false,
-// }: HistoryChangeEventData) => {
-//   const historyChange = new CustomEvent<HistoryChangeEventData>(
-//     "historychange",
-//     {
-//       detail: {
-//         path,
-//         search,
-//         isReplace,
-//       },
-//     }
-//   );
-//   window.dispatchEvent(historyChange);
-// };
-
 const spaRouter = () => {
   let pageParams: any;
   const routeInfo: { root: HTMLElement | null; routes: Route[] | null } = {
