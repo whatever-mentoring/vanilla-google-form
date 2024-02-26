@@ -38,7 +38,7 @@ const shallowArrayEqual = (arrA: any[], arrB: any[]): boolean => {
   if (arrA.length !== arrB.length) return false;
 
   for (let i = 0; i < arrA.length; i++) {
-    if (Array.isArray(arrA) && Array.isArray(arrB)) {
+    if (Array.isArray(arrA[0]) && Array.isArray(arrB[0])) {
       return shallowArrayEqual(arrA[0], arrB[0]);
     } else if (!shallowEqual(arrA[i], arrB[i])) {
       return false;

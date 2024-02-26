@@ -47,7 +47,6 @@ const domRenderer = () => {
 
     const newVDOM = component();
     updateElement($root, newVDOM, currentVDOM);
-
     options.stateHook = 0;
     options.effectHook = 0;
     renderInfo.currentVDOM = newVDOM;
@@ -68,9 +67,11 @@ const domRenderer = () => {
     const { stateHook: index } = options;
     const state = (options.states[index] ?? initialState) as T;
     const setState = (newState: T) => {
-      if (shallowEqual(state, newState)) return;
-      options.states[index] = newState;
-      _render();
+      queueMicrotask(() => {
+        if (shallowEqual(state, newState)) return;
+        options.states[index] = newState;
+        _render();
+      });
     };
     options.stateHook += 1;
     return [state, setState] as const;
