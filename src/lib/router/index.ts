@@ -2,12 +2,6 @@ import { render } from "../dom";
 import type { Component } from "../dom/types";
 import { pathToRegex } from "./utils";
 
-type HistoryChangeEventData = {
-  path: string;
-  search: string;
-  isReplace?: boolean;
-};
-
 export type Route = {
   path: string;
   element?: Component;
@@ -119,26 +113,6 @@ const spaRouter = () => {
     const initLoad = () => {
       loadRouteComponent(history.currentPath());
       customizeAnchorBehavior();
-
-      window.addEventListener("historychange", (e: unknown) => {
-        const {
-          detail: { path, search, isReplace },
-        } = e as CustomEvent<HistoryChangeEventData>;
-        if (isReplace) {
-          window.history.replaceState({}, "", path + search);
-        } else {
-          window.history.pushState(
-            {
-              scrollTop:
-                document.body.scrollHeight ||
-                document.documentElement.scrollHeight,
-            },
-            "",
-            path + search
-          );
-        }
-        loadRouteComponent(path);
-      });
 
       window.addEventListener("popstate", () => {
         loadRouteComponent(history.currentPath());
