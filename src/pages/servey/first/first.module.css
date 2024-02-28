@@ -1,0 +1,74 @@
+.cardContainer.first {
+  padding-bottom: 16px;
+}
+
+.asterisk {
+  color: var(--red-500);
+  padding-left: 0.25em;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.inputWrapper {
+  width: 100%;
+  min-height: 24px;
+  padding: 0.5em 0.5em 0.5em 0;
+}
+
+.inputWrapper > label {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75em;
+}
+
+.inputWrapper > label > input[type="radio"] {
+  height: 18px;
+  width: 18px;
+}
+.inputWrapper > label > input[type="checkbox"] {
+  height: 18px;
+  width: 18px;
+}
+
+.formSectionNameWrapper {
+  margin-bottom: 16px;
+}
+
+.fontSmall {
+  font-size: 11pt;
+  font-family: docs-Roboto, Helvetica, Arial, sans-serif;
+}
+
+.footerContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.nextButton {
+  margin-right: 14px;
+  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2),
+    0 1px 1px 0 rgba(0, 0, 0, 0.141), 0 1px 3px 0 rgba(0, 0, 0, 0.122);
+  background-color: var(--gray-scale-00);
+  font-size: 14px;
+  border-radius: 4px;
+  line-height: 36px;
+  padding: 0 24px;
+  color: var(--primary-500);
+}
+.nextButton:hover {
+  background-color: #f9f7fc;
+}
+.resetButton {
+  padding: 0 8px;
+  font-size: 14px;
+  border-radius: 4px;
+  color: var(--primary-500);
+}
+.resetButton:hover {
+  background-color: var(--primary-200);
+}

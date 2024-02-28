@@ -1,9 +1,18 @@
-import { VDOM } from "./jsx/type";
+import type { VNode } from "../jsx/types";
 
-const createElement = (node: string | VDOM) => {
-  if (typeof node === "string") {
-    return document.createTextNode(node);
+const createElement = (node: VNode) => {
+  if (node === null || node === undefined) {
+    return document.createDocumentFragment();
   }
+  if (typeof node === "string" || typeof node === "number") {
+    return document.createTextNode(String(node));
+  }
+
+  const isFragment = node.type === "fragment";
+  if (isFragment) {
+    return document.createDocumentFragment();
+  }
+
   const element = document.createElement(node.type);
 
   Object.entries(node.props || {}).forEach(([attr, value]) => {
@@ -24,13 +33,4 @@ const createElement = (node: string | VDOM) => {
   return element;
 };
 
-const createRoot = (el: HTMLElement) => {
-  return {
-    render: (component: string | VDOM) => {
-      const _el = createElement(component);
-      el.appendChild(_el);
-    },
-  };
-};
-
-export { createElement, createRoot };
+export { createElement };

@@ -1,5 +1,7 @@
-import { createRoot } from "./lib/dom";
-import App from "./app";
+// import { router } from "./lib/router";
+import { router } from "./lib/router";
+import { routes } from "./routes";
+import "./styles/index.css";
 
-const root = createRoot(document.getElementById("app") as HTMLElement);
-root.render(<App />);
+const app = document.getElementById("app") as HTMLElement;
+router(app, routes);
