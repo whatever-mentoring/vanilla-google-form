@@ -1,0 +1,29 @@
+.borderTop {
+  background-color: var(--primary-500);
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  height: 10px;
+  left: -1px;
+  position: absolute;
+  top: -1px;
+  width: calc(100% + 2px);
+}
+
+.title {
+  font-size: 24pt;
+  font-weight: 400;
+  font-family: "docs-Roboto", Helvetica, Arial, sans-serif;
+  padding-bottom: 12px;
+}
+.hr {
+  border-top: 1px solid var(--gray-scale-100);
+  left: 0;
+  position: absolute;
+  width: 100%;
+}
+.emphasize {
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 14px;
+  color: var(--red-500);
+}

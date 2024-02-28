@@ -1,7 +1,9 @@
 import PageNotFound from "../not-found";
 import type { Route } from "../lib/router";
-import HomePage from "@/pages/home";
-import AboutPage from "@/pages/about";
+import HomePage from "@/pages/home/page";
+import FirstPage from "@/pages/servey/first/page";
+import SecondPage from "@/pages/servey/second/page";
+import CompletePage from "@/pages/servey/complete/page";
 
 export const routes: Route[] = [
   {
@@ -10,11 +12,19 @@ export const routes: Route[] = [
     errorElement: PageNotFound,
     children: [
       {
-        path: "about",
+        path: "servey",
         children: [
           {
-            path: ":id",
-            element: AboutPage,
+            path: "first",
+            element: FirstPage,
+          },
+          {
+            path: "second",
+            element: SecondPage,
+          },
+          {
+            path: "complete",
+            element: CompletePage,
           },
         ],
       },

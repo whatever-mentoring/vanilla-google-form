@@ -10,16 +10,18 @@ const diffTextVDOM = (newVDOM: VNode, currentVDOM: VNode) => {
     if (newVDOM === currentVDOM) return false;
     return true;
   }
+
   return false;
 };
 
 const updateElement = (
   parent: Element,
   newVDOM: VNode,
-  currentVDOM: VNode | null,
+  currentVDOM: VNode,
   index: number = 0
 ) => {
   let removeIndex: undefined | number = undefined;
+
   if (parent.childNodes) {
     if (!newVDOM && currentVDOM) {
       parent.removeChild(parent.childNodes[index]);
@@ -32,11 +34,18 @@ const updateElement = (
     return;
   }
 
+  if (newVDOM && (currentVDOM as any)?.type === "fragment") {
+    // 두 번째 매개변수가 존재하지 않을 경우 부모요소의 가장 마지막에 추가된다.
+    parent.insertBefore(createElement(newVDOM), parent.childNodes[index]);
+    return;
+  }
+
   if (diffTextVDOM(newVDOM, currentVDOM)) {
     parent.replaceChild(createElement(newVDOM), parent.childNodes[index]);
     return;
   }
 
+  if (!newVDOM || !currentVDOM) return;
   if (typeof newVDOM === "string" || typeof currentVDOM === "string") return;
   if (typeof newVDOM === "number" || typeof currentVDOM === "number") return;
 
@@ -78,7 +87,13 @@ function updateAttributes(
 
   for (const attr of Object.keys(oldProps)) {
     if (newProps[attr] !== undefined) continue;
-    target.removeAttribute(attr);
+    if (attr.startsWith("on")) {
+      (target as any)[attr] = null;
+    } else if (attr.startsWith("class")) {
+      target.removeAttribute("class");
+    } else {
+      target.removeAttribute(attr);
+    }
   }
 }
 
